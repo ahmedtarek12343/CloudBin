@@ -11,7 +11,7 @@ export const FolderCard = ({ folder }: { folder: FolderCardType }) => {
   return (
     <Link
       className="flex gap-2 capitalize border bg-muted p-4 rounded-lg cursor-pointer"
-      to={`/drive/folders/${folderPath}`}
+      to={`/${folderPath}`}
     >
       <FolderIcon /> {folder?.name}
     </Link>

@@ -75,7 +75,7 @@ const UploadFile = ({ open, onOpenChange }: Props) => {
     const file = fileInputRef.current?.files?.[0];
     if (!file) return toast.error("No file selected");
     const pathname = location.pathname;
-    const folderPath = location.pathname.startsWith("/drive/folders/")
+    const folderPath = location.pathname.startsWith("/folders/")
       ? pathname.split("/folders/")[1]
       : null;
 

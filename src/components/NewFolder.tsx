@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { toast } from "sonner";
-
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2Icon } from "lucide-react";
-import { useFetcher } from "react-router";
+import { useFetcher, useRevalidator } from "react-router";
 
 interface Props {
   open: boolean;
@@ -23,29 +22,44 @@ export const NewFolder = ({ open, onOpenChange }: Props) => {
   const [folderName, setFolderName] = useState<string>("New Folder");
   const [parentFolderPath, setParentFolderPath] = useState<string>("/");
   const fetcher = useFetcher();
+  const revalidator = useRevalidator();
   const isLoading = fetcher.state !== "idle";
+  const hasShownToast = useRef(false); // 👈 Track if we've shown the toast
 
   useEffect(() => {
     if (!fetcher.data) return;
+    if (hasShownToast.current) return; // 👈 Prevent duplicate toasts
 
     if (fetcher.data.ok) {
+      hasShownToast.current = true; // 👈 Mark as shown
       toast.success("Folder created successfully!");
+      revalidator.revalidate();
       onOpenChange(false);
     } else {
       console.log(fetcher.data.error);
       toast.error(fetcher.data.error ?? "Failed to create folder");
     }
-  }, [fetcher.data, onOpenChange]);
+  }, [fetcher.data, onOpenChange, revalidator]);
+
+  // Reset the ref when dialog closes
+  useEffect(() => {
+    if (!open) {
+      hasShownToast.current = false;
+      setFolderName("New Folder");
+      setParentFolderPath("/");
+    }
+  }, [open]);
 
   const handleSubmit = useCallback(() => {
+    hasShownToast.current = false; // Reset before submitting
     fetcher.submit(
       {
         folderName,
         parentFolderPath,
       },
-      { action: "/drive", method: "post", encType: "application/json" }
+      { action: "/", method: "post", encType: "application/json" }
     );
-  }, [folderName, parentFolderPath]);
+  }, [folderName, parentFolderPath, fetcher]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -80,7 +94,7 @@ export const NewFolder = ({ open, onOpenChange }: Props) => {
                 setParentFolderPath(e.currentTarget.value);
               }}
               required
-              placeholder="Enter new folder name"
+              placeholder="Enter parent folder path"
             />
           </div>
         </div>

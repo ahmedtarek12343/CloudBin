@@ -3,18 +3,18 @@ import { Box, Clock, Home } from "lucide-react";
 export const SIDEBAR_LINKS = [
   {
     title: "Home",
-    url: "/drive/home",
+    url: "/home",
     icon: Home,
     isActive: true,
   },
   {
     title: "My Drive",
-    url: "/drive/my-drive",
+    url: "/my-drive",
     icon: Box,
   },
   {
     title: "Recent",
-    url: "/drive/recent",
+    url: "/recent",
     icon: Clock,
   },
 ] as const;

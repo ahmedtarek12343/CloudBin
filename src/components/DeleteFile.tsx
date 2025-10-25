@@ -60,7 +60,7 @@ export const DeleteFile = ({
       {
         method: "delete",
         encType: "application/json",
-        action: "/drive",
+        action: "/",
       }
     );
   }, [fileId, fileUrl, fetcher, queryClient, onOpenChange]);

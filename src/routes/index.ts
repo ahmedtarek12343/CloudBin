@@ -15,10 +15,6 @@ import { FolderPreview } from "@/pages/drive/FolderPreview/FolderPreview";
 
 export const router = createBrowserRouter([
   {
-    path: "/", // layout with header
-    ErrorBoundary: RootError,
-  },
-  {
     path: "/auth",
     children: [
       {
@@ -44,7 +40,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/drive",
+    path: "/",
     Component: AppLayout,
     action: driveActions,
     children: [
@@ -61,7 +57,7 @@ export const router = createBrowserRouter([
         Component: RecentFiles,
       },
       {
-        path: "folders/:folderName",
+        path: "/:folderName",
         Component: FolderPreview,
         loader: driveFolderLoader,
       },

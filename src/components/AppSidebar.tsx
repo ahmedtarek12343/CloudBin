@@ -34,7 +34,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
     <>
       <Sidebar {...props}>
         <SidebarHeader>
-          <Link to="/drive/home">
+          <Link to="/home">
             <Logo
               variant="icon"
               className={cn(state === "collapsed" ? "size-8" : "size-10")}

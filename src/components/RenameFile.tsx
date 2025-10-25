@@ -66,7 +66,7 @@ export const RenameFile = ({
       {
         method: "put",
         encType: "application/json",
-        action: "/drive",
+        action: "/",
       }
     );
   }, [fileNewName, filePath]);
