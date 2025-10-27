@@ -1,4 +1,4 @@
-import { Box, Clock, Home } from "lucide-react";
+import { Clock, Home } from "lucide-react";
 
 export const SIDEBAR_LINKS = [
   {

@@ -9,7 +9,6 @@ import {
   BreadcrumbItem,
 } from "@/components/ui/breadcrumb";
 import { FolderCard } from "@/components/FolderCard";
-import { useEffect } from "react";
 
 export const FolderPreview = () => {
   const { files, folders } = useLoaderData();

@@ -1,5 +1,3 @@
-import { formatDate } from "@/lib/formatDate";
-
 import type { File } from "@/types/all-types";
 
 export const FileInfo = ({ file }: { file: File }) => {

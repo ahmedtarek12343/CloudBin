@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 import axios from "axios";
 
-import type { LoaderFunction, LoaderFunctionArgs } from "react-router";
+import type { LoaderFunction } from "react-router";
 import type { AxiosRequestConfig } from "axios";
 import { AppwriteException } from "appwrite";
 import { getCurrentUserFolder } from "@/lib/appwrite";

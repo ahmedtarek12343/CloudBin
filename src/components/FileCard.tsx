@@ -21,7 +21,6 @@ import { FileDetails } from "./FileDetails";
 
 export const FileCard = ({ file }: { file: File }) => {
   const [detailOpen, setDetailOpen] = useState(false);
-  const [infoOpen, setInfoOpen] = useState(false);
 
   const thumbnail = useMemo(
     () => (file?.mime.startsWith("image/") ? file?.url : file?.thumbnail),
