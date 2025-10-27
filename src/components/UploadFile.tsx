@@ -70,14 +70,15 @@ const UploadFile = ({ open, onOpenChange }: Props) => {
       throw new Error("Authentication Failed");
     }
   }, []);
-
   const handleUpload = useCallback(async () => {
     const file = fileInputRef.current?.files?.[0];
     if (!file) return toast.error("No file selected");
     const pathname = location.pathname;
-    const folderPath = location.pathname.startsWith("/folders/")
-      ? pathname.split("/folders/")[1]
-      : null;
+
+    let folderPath = location.pathname.startsWith("/") ? pathname : null;
+    if (folderPath === "/home") {
+      folderPath = "/";
+    }
 
     try {
       setIsUploading(true);

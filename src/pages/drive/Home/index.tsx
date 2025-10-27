@@ -1,6 +1,6 @@
 import { useFileLoader } from "@/hooks/useFileLoader";
 import { Button } from "@/components/ui/button";
-import { Files, RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -14,7 +14,6 @@ import { FileCard } from "@/components/FileCard";
 import type { File } from "@/types/all-types";
 const Home = () => {
   const { data, refetch, isRefetching, isLoading } = useFileLoader();
-  console.log(data?.files);
 
   return (
     <div>
@@ -46,13 +45,17 @@ const Home = () => {
               </div>
             )}
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-4">
-              {data?.folder.map((folder: FolderCardType, i: number) =>
-                isRefetching ? (
-                  <div className="space-y-2 mt-5">
-                    <Skeleton className="h-8 w-[350px]" />
-                  </div>
-                ) : (
-                  <FolderCard key={i} folder={folder} />
+              {data?.folders.length === 0 ? (
+                <p className="font-bold text-primary">No folder Yet!</p>
+              ) : (
+                data?.folders.map((folder: FolderCardType, i: number) =>
+                  isRefetching ? (
+                    <div className="space-y-2 mt-5">
+                      <Skeleton className="h-8 w-[350px]" />
+                    </div>
+                  ) : (
+                    <FolderCard key={i} folder={folder} />
+                  )
                 )
               )}
             </div>
@@ -72,13 +75,17 @@ const Home = () => {
               </div>
             )}
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-4">
-              {data?.files.map((file: File, i: number) =>
-                isRefetching ? (
-                  <div className="space-y-2 mt-5">
-                    <Skeleton className="h-8 w-[350px]" />
-                  </div>
-                ) : (
-                  <FileCard key={i} file={file} />
+              {data?.files.length === 0 ? (
+                <p className="font-bold text-primary">No files Yet!</p>
+              ) : (
+                data?.files.map((file: File, i: number) =>
+                  isRefetching ? (
+                    <div className="space-y-2 mt-5">
+                      <Skeleton className="h-8 w-[350px]" />
+                    </div>
+                  ) : (
+                    <FileCard key={i} file={file} />
+                  )
                 )
               )}
             </div>

@@ -8,11 +8,6 @@ export const SIDEBAR_LINKS = [
     isActive: true,
   },
   {
-    title: "My Drive",
-    url: "/my-drive",
-    icon: Box,
-  },
-  {
     title: "Recent",
     url: "/recent",
     icon: Clock,

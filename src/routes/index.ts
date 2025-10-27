@@ -5,9 +5,7 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import VerifyEmail from "@/pages/auth/VerifyEmail";
 import AppLayout from "@/layouts/AppLayout";
 import Home from "@/pages/drive/Home";
-import { MyDrive } from "@/pages/drive/FolderPreview/MyDrive";
 import { RecentFiles } from "@/pages/drive/FolderPreview/RecentFiles";
-import { RootError } from "@/pages/error/Root";
 import { createBrowserRouter } from "react-router";
 import { driveActions } from "./actions/driveAction";
 import { driveFolderLoader } from "./loader/folderLoader";
@@ -49,15 +47,11 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "my-drive",
-        Component: MyDrive,
-      },
-      {
         path: "recent",
         Component: RecentFiles,
       },
       {
-        path: "/:folderName",
+        path: "/:folderName/*",
         Component: FolderPreview,
         loader: driveFolderLoader,
       },

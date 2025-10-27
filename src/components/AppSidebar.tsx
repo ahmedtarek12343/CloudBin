@@ -50,7 +50,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
                     size={state === "collapsed" ? "icon" : "default"}
                     className={`${cn(
                       state === "collapsed" && "size-8"
-                    )} cursor-pointer `}
+                    )} cursor-pointer mb-2`}
                   >
                     <PlusIcon />
                     {state === "expanded" && "New"}

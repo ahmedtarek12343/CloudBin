@@ -1,63 +1,55 @@
 import axios from "axios";
-
 import { getCurrentUserFolder } from "@/lib/appwrite";
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosRequestConfig } from "axios";
+import type { FolderCardType } from "@/types/all-types";
 
 const API_KEY = btoa(`${import.meta.env.VITE_IMAGEKIT_API_KEY}:`);
 
-const getFiles = async (folderName: string, isRecent?: boolean) => {
+const getFiles = async (path: string, isRecent?: boolean) => {
   const option: AxiosRequestConfig = {
     method: "GET",
     url: import.meta.env.VITE_IMAGEKIT_API_ENDPOINT,
     headers: { Accept: "application/json", Authorization: `Basic ${API_KEY}` },
     params: {
-      path: folderName || "",
+      path: path || "",
       sort: isRecent ? "DESC_CREATED" : "ASC_CREATED",
     },
   };
-  try {
-    const { data } = await axios.request(option);
-    return data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  const { data } = await axios.request(option);
+  return data;
 };
 
-const getFolders = async (folderName: string) => {
+const getFolders = async (path: string) => {
   const option: AxiosRequestConfig = {
     method: "GET",
     url: import.meta.env.VITE_IMAGEKIT_API_ENDPOINT,
-    headers: {
-      Accept: "application/json",
-      Authorization: `Basic ${API_KEY}`,
-    },
-    params: {
-      path: folderName || "",
-      type: "folder",
-    },
+    headers: { Accept: "application/json", Authorization: `Basic ${API_KEY}` },
+    params: { path: path || "", type: "folder" },
   };
-
-  try {
-    const { data } = await axios.request(option);
-    return data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  const { data } = await axios.request(option);
+  return data;
 };
 
-export const useFileLoader = () => {
+// 💡 Dynamic hook
+export const useFileLoader = (folderPath?: string) => {
   return useQuery({
-    queryKey: ["files"],
+    queryKey: ["files", folderPath],
     queryFn: async () => {
-      const folderName = await getCurrentUserFolder();
-      const files = await getFiles(folderName!);
-      const recentFiles = await getFiles(folderName!, true);
-      const folder = await getFolders(folderName!);
+      const baseFolder = await getCurrentUserFolder();
+      const fullPath = folderPath ? `${baseFolder}/${folderPath}` : baseFolder;
 
-      return { files, recentFiles, folder };
+      let [files, recentFiles, folders] = await Promise.all([
+        getFiles(fullPath!),
+        getFiles(fullPath!, true),
+        getFolders(fullPath!),
+      ]);
+
+      folders = folders.filter(
+        (folder: FolderCardType) => folder.name !== "home"
+      );
+
+      return { files, recentFiles, folders };
     },
   });
 };

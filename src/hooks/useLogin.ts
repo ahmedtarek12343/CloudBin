@@ -16,9 +16,8 @@ export const useLogin = () => {
       });
       return session;
     },
-    onSuccess: (data) => {
-      console.log("Login success:", data);
-      navigate("/");
+    onSuccess: () => {
+      navigate("/home");
     },
     onError: (error: Error) => {
       toast.error(error.message);

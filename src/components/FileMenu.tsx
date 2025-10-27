@@ -40,10 +40,10 @@ export const FileMenu = ({ file }: { file: File }) => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger className="cursor-pointer">
           <EllipsisVerticalIcon />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[180px]">
+        <DropdownMenuContent className="ml-40 w-[200px]">
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => setDetailsOpen(true)}

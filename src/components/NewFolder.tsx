@@ -11,7 +11,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Loader2Icon } from "lucide-react";
-import { useFetcher, useRevalidator } from "react-router";
+import { useFetcher } from "react-router";
+import { useQueryClient } from "@tanstack/react-query"; // 👈 Add this
 
 interface Props {
   open: boolean;
@@ -22,26 +23,28 @@ export const NewFolder = ({ open, onOpenChange }: Props) => {
   const [folderName, setFolderName] = useState<string>("New Folder");
   const [parentFolderPath, setParentFolderPath] = useState<string>("/");
   const fetcher = useFetcher();
-  const revalidator = useRevalidator();
+  const queryClient = useQueryClient(); // 👈 Add this
   const isLoading = fetcher.state !== "idle";
-  const hasShownToast = useRef(false); // 👈 Track if we've shown the toast
+  const hasShownToast = useRef(false);
 
   useEffect(() => {
     if (!fetcher.data) return;
-    if (hasShownToast.current) return; // 👈 Prevent duplicate toasts
+    if (hasShownToast.current) return;
 
     if (fetcher.data.ok) {
-      hasShownToast.current = true; // 👈 Mark as shown
+      hasShownToast.current = true;
       toast.success("Folder created successfully!");
-      revalidator.revalidate();
+
+      // 👇 Invalidate the files query to refetch
+      queryClient.invalidateQueries({ queryKey: ["files"] });
+
       onOpenChange(false);
     } else {
       console.log(fetcher.data.error);
       toast.error(fetcher.data.error ?? "Failed to create folder");
     }
-  }, [fetcher.data, onOpenChange, revalidator]);
+  }, [fetcher.data, onOpenChange, queryClient]); // 👈 Add queryClient
 
-  // Reset the ref when dialog closes
   useEffect(() => {
     if (!open) {
       hasShownToast.current = false;
@@ -51,7 +54,7 @@ export const NewFolder = ({ open, onOpenChange }: Props) => {
   }, [open]);
 
   const handleSubmit = useCallback(() => {
-    hasShownToast.current = false; // Reset before submitting
+    hasShownToast.current = false;
     fetcher.submit(
       {
         folderName,

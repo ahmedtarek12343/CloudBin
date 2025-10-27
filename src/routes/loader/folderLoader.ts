@@ -30,15 +30,34 @@ const getFilesByFolder = async (path: string) => {
   }
 };
 
+const getFoldersByPath = async (path: string) => {
+  const option: AxiosRequestConfig = {
+    method: "GET",
+    url: import.meta.env.VITE_IMAGEKIT_API_ENDPOINT,
+    headers: { Accept: "application/json", Authorization: `Basic ${API_KEY}` },
+    params: { path: path || "", type: "folder" },
+  };
+  const { data } = await axios.request(option);
+
+  return data;
+};
+
 export const driveFolderLoader: LoaderFunction = async ({ params }) => {
   try {
-    const folderName = params.folderName;
+    const folderParent = await getCurrentUserFolder();
+    const folderName = params.folderName
+      ? params.folderName + (params["*"] ? `/${params["*"]}` : "")
+      : params["*"] || "";
+    console.log(params["*"]);
+
     if (!folderName) {
       throw new Error("Folder name is required");
     }
 
     const files = await getFilesByFolder(folderName);
-    return files;
+    const folders = await getFoldersByPath(`/${folderParent}/${folderName}`);
+
+    return { files, folders };
   } catch (err) {
     if (err instanceof AppwriteException) {
       return redirect("/auth/login");

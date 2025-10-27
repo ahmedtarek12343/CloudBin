@@ -22,7 +22,7 @@ export const useVerifyOTP = () => {
     },
     onSuccess: () => {
       toast.success("Email verified and logged in!");
-      navigate("/drive");
+      navigate("/home");
     },
     onError: (error: Error) => {
       toast.error(error.message);
