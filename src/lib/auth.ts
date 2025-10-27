@@ -3,6 +3,6 @@ import { account, OAuthProvider } from "./appwrite";
 export const handleOAuthLogin = () => {
   account.createOAuth2Session({
     provider: OAuthProvider.Google,
-    success: "http://localhost:5173/home",
+    success: `${window.location.origin}/home`,
   });
 };
