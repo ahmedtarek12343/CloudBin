@@ -12,7 +12,7 @@ export const FilePreview = ({
   setLoading,
 }: FilePreviewType) => {
   return (
-    <div className="flex-1 flex items-center justify-center bg-muted rounded-lg relative">
+    <div className="md:flex-1 flex items-center justify-center bg-muted rounded-lg relative">
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10 rounded-lg">
           <p className="text-white text-lg font-medium">Processing...</p>

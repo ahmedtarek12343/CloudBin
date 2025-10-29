@@ -55,7 +55,7 @@ export const FileDetails = ({ open, onOpenChange, file }: FileDetailsType) => {
   }, []);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-screen h-fit max-w-none rounded-none sm:rounded-lg sm:max-w-6xl overflow-auto">
+      <DialogContent className="w-screen h-[80%] max-w-none rounded-none sm:rounded-lg sm:max-w-6xl overflow-y-auto ">
         <DialogHeader className="border-b pb-2">
           <DialogTitle>File Details</DialogTitle>
           <DialogDescription>
@@ -72,7 +72,7 @@ export const FileDetails = ({ open, onOpenChange, file }: FileDetailsType) => {
             setLoading={setLoading}
             isImage={isImage}
           ></FilePreview>
-          <div className="w-80 border-l bg-background p-4 flex flex-col">
+          <div className="md:w-80 border-l bg-background p-4 flex flex-col">
             {isImage ? (
               <ImgPreviewSidebar
                 file={file}

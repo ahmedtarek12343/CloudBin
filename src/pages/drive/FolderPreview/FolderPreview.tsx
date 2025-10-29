@@ -12,6 +12,7 @@ import { FolderCard } from "@/components/FolderCard";
 
 export const FolderPreview = () => {
   const { files, folders } = useLoaderData();
+
   const location = useLocation();
   const pathname = location.pathname.split("/").slice(1);
 
@@ -49,7 +50,7 @@ export const FolderPreview = () => {
         })}
       </section>
       <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-        {files.length ? (
+        {files.length === 0 ? (
           <p className="font-bold text-primary">No files yet!</p>
         ) : (
           files.map((file: File, i: number) => <FileCard key={i} file={file} />)

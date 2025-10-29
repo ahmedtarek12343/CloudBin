@@ -48,7 +48,6 @@ export const driveFolderLoader: LoaderFunction = async ({ params }) => {
     const folderName = params.folderName
       ? params.folderName + (params["*"] ? `/${params["*"]}` : "")
       : params["*"] || "";
-    console.log(params["*"]);
 
     if (!folderName) {
       throw new Error("Folder name is required");
